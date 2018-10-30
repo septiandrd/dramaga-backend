@@ -1,0 +1,1 @@
+INSERT INTO dramaga_db.users (id, role_id, name, email, email_verified_at, password, phone, address, gender, created_at, updated_at, remember_token) VALUES (1, 1, 'septiandrd', 'septiandrd@gmail.com', null, '$2y$10$cKCbkBdU.ACdoUxcd9FZ3ugKO1a3uYKo04wCFmJcEmC0hXBcgoQxm', '082217363440', 'Cimaung, Bandung', 'M', '2018-10-09 18:31:20', '2018-10-09 18:31:20', null);

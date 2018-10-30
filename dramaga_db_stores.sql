@@ -1,0 +1,1 @@
+INSERT INTO dramaga_db.stores (id, name, description, address, user_id) VALUES (1, 'SOC', 'Menjual berbagai gadget', 'Bandung', 1);
