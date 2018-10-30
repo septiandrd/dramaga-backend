@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class APIProductController extends Controller
 {
+    public function getProductDetails(Request $request) {
+        try {
+            $products = Product::where('id',$request->id)
+                ->with('images','store','store.user')
+                ->first();
+            return response()->json(compact('products'));
+
+        } catch (Exception $exception) {
+            return response()->json(['code'=>'FAILED']);
+        }
+    }
+
     public function getSuggestedProducts(Request $request) {
         try {
             $products = Product::inRandomOrder()
