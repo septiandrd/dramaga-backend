@@ -24,4 +24,4 @@ Route::post('user/register', 'APIRegisterController@register');
 Route::post('user/login', 'APILoginController@login');
 
 Route::get('product/getSuggestedProduct', 'APIProductController@getSuggestedProducts');
-Route::post('product/getProductDetails', 'APIProductController@getProductDetails');
+Route::get('product/getProductDetails', 'APIProductController@getProductDetails');
