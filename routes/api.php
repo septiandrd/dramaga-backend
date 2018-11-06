@@ -25,3 +25,5 @@ Route::post('user/login', 'APILoginController@login');
 
 Route::get('product/getSuggestedProduct', 'APIProductController@getSuggestedProducts');
 Route::get('product/getProductDetails', 'APIProductController@getProductDetails');
+Route::get('product/img', 'APIProductController@getImage');
+Route::post('product/saveProduct', 'APIProductController@saveProduct');
