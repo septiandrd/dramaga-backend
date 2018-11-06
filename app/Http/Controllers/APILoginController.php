@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
 use JWTFactory;
 use JWTAuth;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 
 class APILoginController extends Controller
 {
