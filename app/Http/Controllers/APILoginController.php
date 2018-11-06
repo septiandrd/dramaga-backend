@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Validator;
+//use Validator;
 use JWTFactory;
-use JWTAuth;
+//use JWTAuth;
 use App\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class APILoginController extends Controller
 {
