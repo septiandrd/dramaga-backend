@@ -82,7 +82,7 @@ class APIProductController extends Controller
                     );
                     $imSave = new Image;
                     $imSave->product_id = $product->id;
-                    $imSave->link = $path;
+                    $imSave->link = "https://serbalokal.com/api/product/img?path=".$path;
                     $imSave->save();
                     $counter++;
                 }
@@ -100,7 +100,7 @@ class APIProductController extends Controller
     public function getImage(Request $request) {
         try {
             $path = $request->query('path');
-            $imgpath = storage_path() . '/app/public/' . $path;
+            $imgpath = storage_path() . '/app/' . $path;
 
             if(!File::exists($imgpath)) abort(404);
 
