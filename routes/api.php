@@ -27,3 +27,7 @@ Route::get('product/getSuggestedProduct', 'APIProductController@getSuggestedProd
 Route::get('product/getProductDetails', 'APIProductController@getProductDetails');
 Route::get('product/img', 'APIProductController@getImage');
 Route::post('product/saveProduct', 'APIProductController@saveProduct');
+
+Route::post('transaction/purchase','APITransactionController@purchase');
+Route::get('transaction/getTransactionsByProduct','APITransactionController@getTransactionsByProduct');
+Route::get('transaction/getTransactionsByUser','APITransactionController@getTransactionsByUser');

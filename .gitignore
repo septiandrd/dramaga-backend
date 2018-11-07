@@ -12,3 +12,4 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /config/app.php
+/config/database.php

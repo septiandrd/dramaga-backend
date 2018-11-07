@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -24,16 +25,22 @@ class APILoginController extends Controller
         $credentials = $request->only('email', 'password');
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'invalid_credentials'], 200);
             }
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        $user = User::where('email',$request->email)->first();
-        $user->remember_token = $token;
-        $user->save();
+        try {
+            $user = User::where('email',$request->email)->first();
+            $user->remember_token = $token;
+            $user->save();
+            $store = Store::where('user_id',$user->id)->get();
 
-        return response()->json(compact('token','user'),200);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'invalid_credentials'], 200);
+        }
+
+        return response()->json(compact('token','user','store'),200);
     }
 }
