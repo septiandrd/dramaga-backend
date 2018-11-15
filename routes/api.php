@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-//Route::middleware('api.auth')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware('api.auth')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::get('user/getUsersByRole', 'APIUserController@getUserByRole');
 Route::get('user/getUsersByGender', 'APIUserController@getUserByGender');
