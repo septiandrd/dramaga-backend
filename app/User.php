@@ -32,6 +32,10 @@ class User extends Authenticatable
         return $this->hasOne(Store::class);
     }
 
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
+
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }

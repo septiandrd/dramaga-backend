@@ -14,6 +14,36 @@ use Illuminate\Http\Request;
 
 class APIProductController extends Controller
 {
+    public function getAllProducts(Request $request) {
+        try {
+            $products = Product::with('store','images')->get();
+            $product_count = sizeof($products);
+            $code = "SUCCESS";
+            return response()->json(compact('store','products','product_count','code'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
+    public function getProductsByStore(Request $request) {
+        try {
+            $store = Store::where('id',$request->store_id)
+                ->with('user')
+                ->first();
+            $products = Product::where('store_id',$request->store_id)
+                ->with('images')->get();
+            $product_count = sizeof($products);
+            $code = "SUCCESS";
+            return response()->json(compact('store','products','product_count','code'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
     public function getProductDetails(Request $request) {
         try {
             $products = Product::where('id',$request->id)
@@ -23,7 +53,9 @@ class APIProductController extends Controller
             return response()->json(compact('products','code'));
 
         } catch (Exception $exception) {
-            return response()->json(['code'=>'FAILED']);
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -38,7 +70,9 @@ class APIProductController extends Controller
             return response()->json(compact('products','code'));
 
         } catch (Exception $exception) {
-            return response()->json(['code'=>'FAILED']);
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -58,7 +92,7 @@ class APIProductController extends Controller
             if ($validator->fails() or $store==null) {
                 if($store==null) {
                     $store = "Store not found";
-                    return response()->json('store',401);
+                    return response()->json(compact('store'),401);
                 }
                 return response()->json($validator->errors(),401);
             }
@@ -93,7 +127,9 @@ class APIProductController extends Controller
             return response()->json(compact('code'));
 
         } catch (Exception $exception) {
-            return response()->json(['code'=>'FAILED']);
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -111,7 +147,46 @@ class APIProductController extends Controller
 
             return $response;
         } catch (Exception $exception) {
-            return response()->json(['code'=>'FAILED']);
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
+    public function deleteProduct(Request $request) {
+        try {
+            $product = Product::where('id',$request->product_id)->withTrashed()->get();
+
+            if (sizeof($product)==0) {
+                $code = "FAILED";
+                $description = "Product not found";
+                return response()->json(compact('code','description'));
+            } else {
+//                Image::where('product_id',$request->product_id)->delete();
+                Product::where('id',$request->product_id)->delete();
+            }
+
+            $code = "SUCCESS";
+            return response()->json(compact('code'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
+    public function getProductsByTransactionCount(Request $request) {
+        try {
+            $products = Product::withCount('transactions')
+                ->orderBy('transactions_count','desc')
+                ->get();
+
+            $code = "SUCCESS";
+            return response()->json(compact('products','code'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 }

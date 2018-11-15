@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'name','description','address','user_id'
     ];
