@@ -23,10 +23,7 @@ class APILoginController extends Controller
                 return response()->json($validator->errors());
             }
 
-            $user = User::where([
-                'email',$request->email,
-                'password',bcrypt($request->get('password')),
-            ])->first();
+            $user = User::where('email',$request->email)->first();
 
 //            $token = JWTAuth::fromUser($user);
 //            $user->remember_token = $token;
