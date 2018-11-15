@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
@@ -28,16 +29,21 @@ class APILoginController extends Controller
 
 
             $user = User::where('email',$request->email)
-                ->where('password',bcrypt($request->get('password')))
                 ->first();
+
+            if (Hash::check($request->password,$user->password)) {
+                $code = "SUCCESS";
+                $description = "OK";
+                return response()->json(compact('user','code', 'description'),200);
+            }
 
 //            $token = JWTAuth::fromUser($user);
 //            $user->remember_token = $token;
 //            $user->save();
 //            $store = Store::where('user_id',$user->id)->get();
 
-            $code = "SUCCESS";
-            $description = "OK";
+            $code = "FAILED";
+            $description = "PASSWORD MISSMATCH";
             return response()->json(compact('user','pass','pass_e','code', 'description'),200);
 
         } catch (Exception $exception) {
