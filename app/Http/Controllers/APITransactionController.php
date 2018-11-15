@@ -241,6 +241,11 @@ class APITransactionController extends Controller
                 ->with('product','product.store','user')
                 ->first();
 
+            if ($transactions==null) {
+                $code = "FAILED";
+                $description = "Transaction not found";
+                return response()->json(compact('code','description'));
+            }
             $code = "SUCCESS";
             return response()->json(compact('transactions','code'));
 
