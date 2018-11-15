@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 use App\Store;
 use Illuminate\Http\Request;
 use Mockery\Exception;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use JWTFactory;
-use JWTAuth;
 use App\User;
 
 class APILoginController extends Controller
