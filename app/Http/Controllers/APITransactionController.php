@@ -87,7 +87,9 @@ class APITransactionController extends Controller
             $code = "SUCCESS";
             return response()->json(compact('code'));
         } catch (Exception $exception) {
-
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -95,25 +97,27 @@ class APITransactionController extends Controller
         try {
             $transaction = Transaction::where('id',$request->transaction_id)->first();
 
-            if (sizeof($transaction)==0) {
-                $code = "FAILED";
-                $description = "Transaction not found";
-                return response()->json(compact('code','description'));
-            }
-
-            $current_time = Carbon::now()->toDateTimeString();
-
-            $transaction->status = "Paid";
-            $transaction->save();
-
-            $timeline = Timeline::where('transaction_id',$request->transaction_id)->first();
-            $timeline->paid_at = $current_time;
-            $timeline->save();
+//            if (sizeof($transaction)==0) {
+//                $code = "FAILED";
+//                $description = "Transaction not found";
+//                return response()->json(compact('code','description'));
+//            }
+//
+//            $current_time = Carbon::now()->toDateTimeString();
+//
+//            $transaction->status = "Paid";
+//            $transaction->save();
+//
+//            $timeline = Timeline::where('transaction_id',$request->transaction_id)->first();
+//            $timeline->paid_at = $current_time;
+//            $timeline->save();
 
             $code = "SUCCESS";
             return response()->json(compact('code'));
         } catch (Exception $exception) {
-
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -139,7 +143,9 @@ class APITransactionController extends Controller
             $code = "SUCCESS";
             return response()->json(compact('code'));
         } catch (Exception $exception) {
-
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -165,7 +171,9 @@ class APITransactionController extends Controller
             $code = "SUCCESS";
             return response()->json(compact('code'));
         } catch (Exception $exception) {
-
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
@@ -191,7 +199,9 @@ class APITransactionController extends Controller
             $code = "SUCCESS";
             return response()->json(compact('code'));
         } catch (Exception $exception) {
-
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
         }
     }
 
