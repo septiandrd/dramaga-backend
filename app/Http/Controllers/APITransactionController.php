@@ -239,7 +239,7 @@ class APITransactionController extends Controller
     public function getTransactionsById(Request $request) {
         try {
             $transactions = Transaction::where('id',$request->transaction_id)
-                ->with('product','product.store','product.images','user','timeline')
+                ->with('product','product.store','product.images','user')
                 ->first();
 
             if ($transactions==null) {
@@ -247,8 +247,11 @@ class APITransactionController extends Controller
                 $description = "Transaction not found";
                 return response()->json(compact('code','description'));
             }
+
+            $timeline = Timeline::where('transaction_id',$request->transaction_id)->first();
+
             $code = "SUCCESS";
-            return response()->json(compact('transactions','code'));
+            return response()->json(compact('transactions','timeline','code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
