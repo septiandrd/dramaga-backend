@@ -25,9 +25,17 @@ class APILoginController extends Controller
                 return response()->json($validator->errors());
             }
 
-            $code = "FAILED";
+            $credentials = $request->only('email', 'password');
+            $token = JWTAuth::attempt($credentials);
+
+            $user = User::where('email',$request->email)->first();
+            $user->remember_token = $token;
+            $user->save();
+            $store = Store::where('user_id',$user->id)->get();
+
+            $code = "SUCCESS";
             $description = "OK";
-            return response()->json(compact('code','description'));
+            return response()->json(compact('token','user','store', 'code', 'description'),200);
 
         } catch (Exception $exception) {
             $code = "FAILED";
