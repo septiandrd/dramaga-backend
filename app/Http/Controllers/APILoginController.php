@@ -37,13 +37,12 @@ class APILoginController extends Controller
                 $user->save();
                 $code = "SUCCESS";
                 $description = "OK";
+                if ($user->role_id==2) {
+                    $store = Store::where('user_id',$user->id)->get();
+                    return response()->json(compact('user','store','token','code', 'description'),200);
+                }
                 return response()->json(compact('user','token','code', 'description'),200);
             }
-
-//            $token = JWTAuth::fromUser($user);
-//            $user->remember_token = $token;
-//            $user->save();
-//            $store = Store::where('user_id',$user->id)->get();
 
             $code = "FAILED";
             $description = "PASSWORD MISSMATCH";
@@ -54,28 +53,5 @@ class APILoginController extends Controller
             $description = $exception;
             return response()->json(compact('code','description'));
         }
-//
-//        $credentials = $request->only('email', 'password');
-//
-//
-//        try {
-//            if (! $token = JWTAuth::attempt($credentials)) {
-//                return response()->json(['error' => 'invalid_credentials'], 200);
-//            }
-//        } catch (JWTException $e) {
-//            return response()->json(['error' => 'could_not_create_token'], 500);
-//        }
-//
-//        try {
-//            $user = User::where('email',$request->email)->first();
-//            $user->remember_token = $token;
-//            $user->save();
-//            $store = Store::where('user_id',$user->id)->get();
-//
-//        } catch (JWTException $e) {
-//            return response()->json(['error' => 'invalid_credentials'], 200);
-//        }
-//
-//        return response()->json(compact('token','user','store'),200);
     }
 }
