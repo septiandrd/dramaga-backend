@@ -28,10 +28,10 @@ class APILoginController extends Controller
                 'password',$request->password
             ])->first();
 
-            $token = JWTAuth::fromUser($user);
-            $user->remember_token = $token;
-            $user->save();
-            $store = Store::where('user_id',$user->id)->get();
+//            $token = JWTAuth::fromUser($user);
+//            $user->remember_token = $token;
+//            $user->save();
+//            $store = Store::where('user_id',$user->id)->get();
 
             $code = "SUCCESS";
             $description = "OK";
