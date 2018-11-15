@@ -97,11 +97,11 @@ class APITransactionController extends Controller
         try {
             $transaction = Transaction::where('id',$request->transaction_id)->first();
 
-//            if ($transaction==null) {
-//                $code = "FAILED";
-//                $description = "Transaction not found";
-//                return response()->json(compact('code','description'));
-//            }
+            if ($transaction==null) {
+                $code = "FAILED";
+                $description = "Transaction not found";
+                return response()->json(compact('code','description'));
+            }
 //
 //            $current_time = Carbon::now()->toDateTimeString();
 //
