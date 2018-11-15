@@ -234,4 +234,20 @@ class APITransactionController extends Controller
             return response()->json(compact('code','description'));
         }
     }
+
+    public function getTransactionsById(Request $request) {
+        try {
+            $transactions = Transaction::where('id',$request->transaction_id)
+                ->with('product','product.store','user')
+                ->first();
+
+            $code = "SUCCESS";
+            return response()->json(compact('transactions','code'));
+
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
 }
