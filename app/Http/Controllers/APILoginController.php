@@ -32,9 +32,10 @@ class APILoginController extends Controller
                 ->first();
 
             if (Hash::check($request->password,$user->password)) {
+                $token = JWTAuth::fromUser($user);
                 $code = "SUCCESS";
                 $description = "OK";
-                return response()->json(compact('user','code', 'description'),200);
+                return response()->json(compact('user','token','code', 'description'),200);
             }
 
 //            $token = JWTAuth::fromUser($user);
