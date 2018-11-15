@@ -23,7 +23,7 @@ class APILoginController extends Controller
                 return response()->json($validator->errors());
             }
 
-            $pass = bcrypt($request->get('password'));
+            $pass = bcrypt($request->password);
 
             $user = User::where('email',$request->email)
                 ->where('password',bcrypt($request->get('password')))
