@@ -239,7 +239,7 @@ class APITransactionController extends Controller
     public function getTransactionsById(Request $request) {
         try {
             $transactions = Transaction::where('id',$request->transaction_id)
-                ->with('product','product.store','product.images','user')
+                ->with('product','product.store','product.images','user','timeline')
                 ->first();
 
             if ($transactions==null) {
