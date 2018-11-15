@@ -29,7 +29,7 @@ class APITransactionController extends Controller
                 return response()->json(compact('code','description'));
             }
 
-            $product = User::find($request->product_id);
+            $product = Product::find($request->product_id);
             if ($product==null) {
                 $code = "FAILED";
                 $description = "Product not found";
