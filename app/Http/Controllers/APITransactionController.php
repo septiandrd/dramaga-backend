@@ -56,7 +56,7 @@ class APITransactionController extends Controller
             $timeline->save();
 
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','timeline'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
