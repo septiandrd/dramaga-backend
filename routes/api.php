@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Route::middleware('jwt.auth')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware('jwt.auth')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware('api.auth')->get('/user', function (Request $request) {
     return $request->user();
