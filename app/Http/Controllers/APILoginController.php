@@ -23,8 +23,10 @@ class APILoginController extends Controller
                 return response()->json($validator->errors());
             }
 
+            $pass = bcrypt($request->get('password'));
+
             $user = User::where('email',$request->email)
-                ->where('password',bcrypt($request->password))
+                ->where('password',bcrypt($request->get('password')))
                 ->first();
 
 //            $token = JWTAuth::fromUser($user);
@@ -34,7 +36,7 @@ class APILoginController extends Controller
 
             $code = "SUCCESS";
             $description = "OK";
-            return response()->json(compact('user','code', 'description'),200);
+            return response()->json(compact('user','pass','code', 'description'),200);
 
         } catch (Exception $exception) {
             $code = "FAILED";
