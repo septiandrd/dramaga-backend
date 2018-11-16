@@ -255,7 +255,7 @@ class APITransactionController extends Controller
                 ->toArray();
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
-                ->with('product')
+                ->with('product','product.images')
                 ->get();
 
             $transaction_count = sizeof($transactions);
@@ -302,7 +302,7 @@ class APITransactionController extends Controller
                 ->toArray();
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
-                ->with('product')
+                ->with('product','product.images')
                 ->get();
 
             $transaction_count = sizeof($transactions);
