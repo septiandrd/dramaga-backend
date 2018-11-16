@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Store;
 use App\Timeline;
 use App\Transaction;
 use App\User;
@@ -238,6 +239,29 @@ class APITransactionController extends Controller
 
             $code = "SUCCESS";
             return response()->json(compact('products','user','transactions','code'));
+
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
+    public function getTransactionsByStore(Request $request) {
+        try {
+            $product_ids = Product::where('store_id',$request->store_id)
+                ->select('id')
+                ->get()
+                ->toArray();
+
+            $transactions = Transaction::whereIn('product_id',$product_ids)
+                ->with('product')
+                ->get();
+
+            $transaction_count = sizeof($transactions);
+
+            $code = "SUCCESS";
+            return response()->json(compact('transactions','transaction_count','code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
