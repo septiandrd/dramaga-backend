@@ -31,22 +31,28 @@ class APILoginController extends Controller
             $user = User::where('email',$request->email)
                 ->first();
 
-            if (Hash::check($request->password,$user->password)) {
-                $token = JWTAuth::fromUser($user);
-                $user->remember_token = $token;
-                $user->save();
-                $code = "SUCCESS";
-                $description = "OK";
-                if ($user->role_id==2) {
-                    $store = Store::where('user_id',$user->id)->get();
-                    return response()->json(compact('user','store','token','code', 'description'),200);
+            if ($user!=null) {
+                if (Hash::check($request->password,$user->password)) {
+                    $token = JWTAuth::fromUser($user);
+                    $user->remember_token = $token;
+                    $user->save();
+                    $code = "SUCCESS";
+                    $description = "OK";
+                    if ($user->role_id==2) {
+                        $store = Store::where('user_id',$user->id)->get();
+                        return response()->json(compact('user','store','token','code', 'description'),200);
+                    }
+                    return response()->json(compact('user','token','code', 'description'),200);
                 }
-                return response()->json(compact('user','token','code', 'description'),200);
-            }
 
-            $code = "FAILED";
-            $description = "PASSWORD MISSMATCH";
-            return response()->json(compact('user','pass','pass_e','code', 'description'),200);
+                $code = "FAILED";
+                $description = "PASSWORD MISSMATCH";
+                return response()->json(compact('user','pass','pass_e','code', 'description'),200);
+            } else {
+                $code = "FAILED";
+                $description = "USER NOT FOUND";
+                return response()->json(compact('user','pass','pass_e','code', 'description'),200);
+            }
 
         } catch (Exception $exception) {
             $code = "FAILED";
