@@ -47,4 +47,5 @@ Route::post('transaction/confirm','APITransactionController@confirm');
 Route::get('store/getAllStores', 'APIStoreController@getAllStores');
 Route::get('store/getStoresByLevel', 'APIStoreController@getStoresByLevel');
 Route::get('store/getStoresByUser', 'APIStoreController@getStoresByUser');
+Route::get('store/getStoreLevelCount', 'APIStoreController@getStoreLevelCount');
 Route::post('store/saveStore', 'APIStoreController@saveStore');

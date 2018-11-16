@@ -52,6 +52,25 @@ class APIStoreController extends Controller
         }
     }
 
+    public function getStoreLevelCount(Request $request) {
+        try {
+            $mikro = Store::where('level',1)->get();
+            $mikro_count = sizeof($mikro);
+            $kecil = Store::where('level',2)->get();
+            $kecil_count = sizeof($kecil);
+            $menengah = Store::where('level',3)->get();
+            $menengah_count = sizeof($menengah);
+
+            $code = "SUCCESS";
+            return response()->json(compact('mikro_count','kecil_count','menengah_count','code'));
+
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
     public function saveStore(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
