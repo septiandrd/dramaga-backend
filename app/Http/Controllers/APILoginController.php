@@ -47,11 +47,11 @@ class APILoginController extends Controller
 
                 $code = "FAILED";
                 $description = "PASSWORD MISSMATCH";
-                return response()->json(compact('user','pass','pass_e','code', 'description'),200);
+                return response()->json(compact('code', 'description'),200);
             } else {
                 $code = "FAILED";
                 $description = "USER NOT FOUND";
-                return response()->json(compact('user','pass','pass_e','code', 'description'),200);
+                return response()->json(compact('code', 'description'),200);
             }
 
         } catch (Exception $exception) {
