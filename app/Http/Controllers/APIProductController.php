@@ -61,11 +61,15 @@ class APIProductController extends Controller
 
     public function getSuggestedProducts(Request $request) {
         try {
-            $products = Product::inRandomOrder()
+            $products = Product::where('store_id',12)
                 ->select('id','name','original_price','discounted_price','stock','store_id')
                 ->with('images','store')
-                ->take(5)
                 ->get();
+//            $products = Product::inRandomOrder()
+//                ->select('id','name','original_price','discounted_price','stock','store_id')
+//                ->with('images','store')
+//                ->take(5)
+//                ->get();
             $code = "SUCCESS";
             return response()->json(compact('products','code'));
 
