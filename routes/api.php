@@ -35,6 +35,7 @@ Route::post('product/saveProduct', 'APIProductController@saveProduct');
 Route::post('product/deleteProduct', 'APIProductController@deleteProduct');
 
 Route::get('transaction/getTransactionsByProduct','APITransactionController@getTransactionsByProduct');
+Route::get('transaction/getTransactionsByCategory','APITransactionController@getTransactionsByCategory');
 Route::get('transaction/getTransactionsByUser','APITransactionController@getTransactionsByUser');
 Route::get('transaction/getTransactionsByStore','APITransactionController@getTransactionsByStore');
 Route::get('transaction/getTransactionsById','APITransactionController@getTransactionsById');
