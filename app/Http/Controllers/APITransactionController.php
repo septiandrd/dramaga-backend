@@ -270,6 +270,35 @@ class APITransactionController extends Controller
         }
     }
 
+    public function getTransactionSumByStore(Request $request) {
+        try {
+            $product_ids = Product::where('store_id',$request->store_id)
+                ->select('id')
+                ->get()
+                ->toArray();
+
+            $transactions = Transaction::whereIn('product_id',$product_ids)
+                ->select('total')
+                ->get();
+//                ->toArray();
+
+            $total = 0;
+            foreach ($transactions as $amount) {
+                $total = $total + $amount->total;
+            }
+
+            $transaction_count = sizeof($transactions);
+
+            $code = "SUCCESS";
+            return response()->json(compact('transactions','transaction_count','total','code'));
+
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
     public function getTransactionsById(Request $request) {
         try {
             $transactions = Transaction::where('id',$request->transaction_id)
