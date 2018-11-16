@@ -26,7 +26,9 @@ class APIStoreController extends Controller
 
     public function getStoresByLevel(Request $request) {
         try {
-            $stores = Store::where('level',$request->level)->get();
+            $stores = Store::where('level',$request->level)
+                ->with('user')
+                ->get();
             $store_count = sizeof($stores);
             $code = "SUCCESS";
             return response()->json(compact('stores','store_count','code'));
