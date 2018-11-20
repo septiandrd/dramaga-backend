@@ -39,7 +39,7 @@ class APILoginController extends Controller
                     $code = "SUCCESS";
                     $description = "OK";
                     if ($user->role_id==2) {
-                        $store = Store::where('user_id',$user->id)->get();
+                        $store = Store::where('user_id',$user->id)->first();
                         return response()->json(compact('user','store','token','code', 'description'),200);
                     }
                     return response()->json(compact('user','token','code', 'description'),200);
