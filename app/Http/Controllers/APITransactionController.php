@@ -255,6 +255,7 @@ class APITransactionController extends Controller
                 ->toArray();
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
+                ->orderBy('id','desc')
                 ->with('product','product.images')
                 ->get();
 
