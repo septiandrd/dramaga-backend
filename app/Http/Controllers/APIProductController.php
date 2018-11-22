@@ -180,10 +180,9 @@ class APIProductController extends Controller
             if ($validator->fails()) {
                 return response()->json($validator->errors(),401);
             }
-            $path = $request->query('path');
-            return response()->json(compact('path'));
 
-//            $imgpath = storage_path() . '/app/' . $path;
+            $path = $request->query('path');
+            $imgpath = storage_path() . '/app/' . $path;
 
             if(!File::exists($imgpath)) abort(404);
 
