@@ -183,7 +183,7 @@ class APIProductController extends Controller
             $path = $request->query('path');
             return response()->json(compact('path'));
 
-            $imgpath = storage_path() . '/app/' . $path;
+//            $imgpath = storage_path() . '/app/' . $path;
 
             if(!File::exists($imgpath)) abort(404);
 
