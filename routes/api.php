@@ -32,6 +32,7 @@ Route::get('product/getProductDetails', 'APIProductController@getProductDetails'
 Route::get('product/img', 'APIProductController@getImage');
 Route::get('product/getProductsByTransactionCount', 'APIProductController@getProductsByTransactionCount');
 Route::post('product/saveProduct', 'APIProductController@saveProduct');
+Route::post('product/saveImage', 'APIProductController@saveImage');
 Route::post('product/deleteProduct', 'APIProductController@deleteProduct');
 
 Route::get('transaction/getTransactionsByProduct','APITransactionController@getTransactionsByProduct');

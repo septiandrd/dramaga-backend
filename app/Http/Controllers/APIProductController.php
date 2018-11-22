@@ -137,9 +137,52 @@ class APIProductController extends Controller
         }
     }
 
+    public function saveImage(Request $request) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'image' => 'required',
+                'product_id' => 'required',
+                'store_id' => 'required'
+            ]);
+
+            $product = Product::where('id',$request->product_id)->first();
+
+            if ($validator->fails() or $product==null) {
+                if($product==null) {
+                    $error = "Product not found";
+                    return response()->json(compact('error'),401);
+                }
+                return response()->json($validator->errors(),401);
+            }
+
+            $path = $request->file('image')->store(
+                'public/product_img/' . $request->get('store_id')
+            );
+            $image = new Image;
+            $image->product_id = $product->id;
+            $image->link = "https://serbalokal.com/api/product/img?path=".$path;
+            $image->save();
+
+            $code = "SUCCESS";
+            return response()->json(compact('code','image'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
     public function getImage(Request $request) {
         try {
+            $validator = Validator::make($request->all(), [
+                'path' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(),401);
+            }
             $path = $request->query('path');
+            return response()->json(compact('path'));
+
             $imgpath = storage_path() . '/app/' . $path;
 
             if(!File::exists($imgpath)) abort(404);
