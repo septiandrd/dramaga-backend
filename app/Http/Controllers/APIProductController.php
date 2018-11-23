@@ -18,6 +18,9 @@ class APIProductController extends Controller
     public function getAllProducts(Request $request)
     {
         try {
+            $code = "FAILED";
+//            $description = $exception;
+            return response()->json(compact('code'));
             $products = Product::with('store')->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
