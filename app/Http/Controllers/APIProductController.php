@@ -50,7 +50,7 @@ class APIProductController extends Controller
     {
         try {
             $products = Product::where('id', $request->id)
-                ->with('images', 'store', 'store.user')
+                ->with('store', 'store.user')
                 ->first();
             $code = "SUCCESS";
             return response()->json(compact('products', 'code'));
