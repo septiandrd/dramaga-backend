@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
+use function Sodium\add;
 use Validator;
 use App\Image;
 use App\Product;
@@ -50,8 +51,25 @@ class APIProductController extends Controller
     {
         try {
             $products = Product::where('id', $request->id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
                 ->with('store', 'store.user')
                 ->first();
+
+            $images = Product::where('id', $request->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $image) {
+                if ($image!=null) {
+                    array_push($imArray,$image);
+                }
+            }
+
+            $products->images = $imArray;
+
             $code = "SUCCESS";
             return response()->json(compact('products', 'code'));
 
@@ -124,7 +142,7 @@ class APIProductController extends Controller
             $product->save();
 
             $code = "SUCCESS";
-            return response()->json(compact('code','product'));
+            return response()->json(compact('code', 'product'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
