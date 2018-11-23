@@ -214,7 +214,6 @@ class APITransactionController extends Controller
 
             $product = Product::withTrashed()
                 ->where('id',$request->product_id)
-                ->with('images')
                 ->get();
 
             $code = "SUCCESS";
@@ -234,7 +233,7 @@ class APITransactionController extends Controller
                 ->first();
 
             $transactions = Transaction::where('user_id',$request->user_id)
-                ->with('product','product.store','product.images')
+                ->with('product','product.store')
                 ->get();
 
             $code = "SUCCESS";
@@ -256,7 +255,7 @@ class APITransactionController extends Controller
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
                 ->orderBy('id','desc')
-                ->with('product','product.images')
+                ->with('product')
                 ->get();
 
             $transaction_count = sizeof($transactions);
@@ -303,7 +302,7 @@ class APITransactionController extends Controller
     public function getTransactionsById(Request $request) {
         try {
             $transactions = Transaction::where('id',$request->transaction_id)
-                ->with('product','product.store','product.images','user')
+                ->with('product','product.store','user')
                 ->first();
 
             if ($transactions==null) {
@@ -332,7 +331,7 @@ class APITransactionController extends Controller
                 ->toArray();
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
-                ->with('product','product.images')
+                ->with('product')
                 ->get();
 
             $transaction_count = sizeof($transactions);
