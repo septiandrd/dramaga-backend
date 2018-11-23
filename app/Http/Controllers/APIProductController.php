@@ -123,24 +123,8 @@ class APIProductController extends Controller
             $product->image4 = $request->get('image5');
             $product->save();
 
-//
-//            $counter = 0;
-//            for ($i=0; $i<5; $i++) {
-//                if($request->hasFile('image'.$i)) {
-//                    $path = $request->file('image'.$i)->store(
-//                        'public/product_img/' . $request->get('store_id')
-//                    );
-//                    $imSave = new Image;
-//                    $imSave->product_id = $product->id;
-//                    $imSave->link = "https://serbalokal.com/api/product/img?path=".$path;
-//                    $imSave->save();
-//                    $counter++;
-//                }
-//
-//            }
-
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','product'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
