@@ -21,7 +21,7 @@ class APIProductController extends Controller
             $products = Product::with('store')->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
-            return response()->json(compact('store', 'products', 'product_count', 'code'));
+            return response()->json(compact( 'products', 'product_count', 'code'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
