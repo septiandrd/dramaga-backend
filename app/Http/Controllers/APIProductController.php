@@ -140,26 +140,18 @@ class APIProductController extends Controller
     public function saveImage(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
-                'image' => 'required',
-                'product_id' => 'required',
-                'store_id' => 'required'
+                'image' => 'required'
             ]);
 
-            $product = Product::where('id',$request->product_id)->first();
-
-            if ($validator->fails() or $product==null) {
-                if($product==null) {
-                    $error = "Product not found";
-                    return response()->json(compact('error'),401);
-                }
+            if ($validator->fails()) {
                 return response()->json($validator->errors(),401);
             }
 
             $path = $request->file('image')->store(
-                'public/product_img/' . $request->get('store_id')
+                'public/product_img'
             );
+
             $image = new Image;
-            $image->product_id = $product->id;
             $image->link = "https://serbalokal.com/api/product/img?path=".$path;
             $image->save();
 
