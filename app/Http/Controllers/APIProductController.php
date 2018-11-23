@@ -14,56 +14,60 @@ use Illuminate\Http\Request;
 
 class APIProductController extends Controller
 {
-    public function getAllProducts(Request $request) {
+    public function getAllProducts(Request $request)
+    {
         try {
-            $products = Product::with('store','images')->get();
+            $products = Product::with('store', 'images')->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
-            return response()->json(compact('store','products','product_count','code'));
+            return response()->json(compact('store', 'products', 'product_count', 'code'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function getProductsByStore(Request $request) {
+    public function getProductsByStore(Request $request)
+    {
         try {
-            $store = Store::where('id',$request->store_id)
+            $store = Store::where('id', $request->store_id)
                 ->with('user')
                 ->first();
-            $products = Product::where('store_id',$request->store_id)
+            $products = Product::where('store_id', $request->store_id)
                 ->with('images')->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
-            return response()->json(compact('store','products','product_count','code'));
+            return response()->json(compact('store', 'products', 'product_count', 'code'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function getProductDetails(Request $request) {
+    public function getProductDetails(Request $request)
+    {
         try {
-            $products = Product::where('id',$request->id)
-                ->with('images','store','store.user')
+            $products = Product::where('id', $request->id)
+                ->with('images', 'store', 'store.user')
                 ->first();
             $code = "SUCCESS";
-            return response()->json(compact('products','code'));
+            return response()->json(compact('products', 'code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function getSuggestedProducts(Request $request) {
+    public function getSuggestedProducts(Request $request)
+    {
         try {
-            $products = Product::where('store_id',12)
-                ->select('id','name','original_price','discounted_price','stock','store_id')
-                ->with('images','store')
+            $products = Product::where('store_id', 12)
+                ->select('id', 'name', 'original_price', 'discounted_price', 'stock', 'store_id')
+                ->with('images', 'store')
                 ->get();
 //            $products = Product::inRandomOrder()
 //                ->select('id','name','original_price','discounted_price','stock','store_id')
@@ -71,16 +75,17 @@ class APIProductController extends Controller
 //                ->take(5)
 //                ->get();
             $code = "SUCCESS";
-            return response()->json(compact('products','code'));
+            return response()->json(compact('products', 'code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function saveProduct(Request $request) {
+    public function saveProduct(Request $request)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
@@ -91,15 +96,19 @@ class APIProductController extends Controller
                 'store_id' => 'required',
             ]);
 
-            $store = Store::where('id',$request->store_id)->first();
-
-            if ($validator->fails() or $store==null) {
-                if($store==null) {
-                    $store = "Store not found";
-                    return response()->json(compact('store'),401);
-                }
-                return response()->json($validator->errors(),401);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 401);
             }
+
+            $store = Store::where('id', $request->store_id)->first();
+
+
+            if ($store == null) {
+                $store = "Store not found";
+                return response()->json(compact('store'), 401);
+            }
+            return response()->json($validator->errors(), 401);
+
 
             $product = new Product;
             $product->name = $request->get('name');
@@ -138,18 +147,19 @@ class APIProductController extends Controller
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function saveImage(Request $request) {
+    public function saveImage(Request $request)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'image' => 'required'
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(),401);
+                return response()->json($validator->errors(), 401);
             }
 
             $path = $request->file('image')->store(
@@ -157,31 +167,32 @@ class APIProductController extends Controller
             );
 
             $image = new Image;
-            $image->link = "https://serbalokal.com/api/product/img?path=".$path;
+            $image->link = "https://serbalokal.com/api/product/img?path=" . $path;
             $image->save();
 
             $code = "SUCCESS";
-            return response()->json(compact('code','image'));
+            return response()->json(compact('code', 'image'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function getImage(Request $request) {
+    public function getImage(Request $request)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'path' => 'required',
             ]);
             if ($validator->fails()) {
-                return response()->json($validator->errors(),401);
+                return response()->json($validator->errors(), 401);
             }
 
             $path = $request->query('path');
             $imgpath = storage_path() . '/app/' . $path;
 
-            if(!File::exists($imgpath)) abort(404);
+            if (!File::exists($imgpath)) abort(404);
 
             $image = File::get($imgpath);
             $type = File::mimeType($imgpath);
@@ -192,20 +203,21 @@ class APIProductController extends Controller
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function deleteProduct(Request $request) {
+    public function deleteProduct(Request $request)
+    {
         try {
-            $product = Product::where('id',$request->product_id)->withTrashed()->get();
+            $product = Product::where('id', $request->product_id)->withTrashed()->get();
 
-            if (sizeof($product)==0) {
+            if (sizeof($product) == 0) {
                 $code = "FAILED";
                 $description = "Product not found";
-                return response()->json(compact('code','description'));
+                return response()->json(compact('code', 'description'));
             } else {
-                Product::where('id',$request->product_id)->delete();
+                Product::where('id', $request->product_id)->delete();
             }
 
             $code = "SUCCESS";
@@ -213,22 +225,23 @@ class APIProductController extends Controller
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 
-    public function getProductsByTransactionCount(Request $request) {
+    public function getProductsByTransactionCount(Request $request)
+    {
         try {
             $products = Product::withCount('transactions')
-                ->orderBy('transactions_count','desc')
+                ->orderBy('transactions_count', 'desc')
                 ->get();
 
             $code = "SUCCESS";
-            return response()->json(compact('products','code'));
+            return response()->json(compact('products', 'code'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
-            return response()->json(compact('code','description'));
+            return response()->json(compact('code', 'description'));
         }
     }
 }
