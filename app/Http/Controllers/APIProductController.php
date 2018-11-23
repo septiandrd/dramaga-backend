@@ -117,10 +117,10 @@ class APIProductController extends Controller
             $product->category = $request->get('category');
             $product->store_id = $request->get('store_id');
             $product->image1 = $request->get('image1');
-            $product->image1 = $request->get('image2');
-            $product->image2 = $request->get('image3');
-            $product->image3 = $request->get('image4');
-            $product->image4 = $request->get('image5');
+            $product->image2 = $request->get('image2');
+            $product->image3 = $request->get('image3');
+            $product->image4 = $request->get('image4');
+            $product->image5 = $request->get('image5');
             $product->save();
 
             $code = "SUCCESS";
