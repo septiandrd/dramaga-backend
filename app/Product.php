@@ -12,8 +12,14 @@ class Product extends Model
         'description',
         'original_price',
         'discounted_price',
-        'stock','category',
-        'store_id'
+        'stock',
+        'category',
+        'store_id',
+        'image1',
+        'image2',
+        'image3',
+        'image4',
+        'image5',
     ];
 
     protected $dates = ['deleted_at'];
@@ -21,11 +27,7 @@ class Product extends Model
     public function store() {
         return $this->belongsTo(Store::class);
     }
-
-    public function images() {
-        return $this->hasMany(Image::class);
-    }
-
+    
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }

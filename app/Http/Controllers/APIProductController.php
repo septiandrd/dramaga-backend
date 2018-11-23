@@ -109,23 +109,28 @@ class APIProductController extends Controller
             $product->stock = $request->get('stock');
             $product->category = $request->get('category');
             $product->store_id = $request->get('store_id');
+            $product->image1 = $request->get('image1');
+            $product->image1 = $request->get('image2');
+            $product->image2 = $request->get('image3');
+            $product->image3 = $request->get('image4');
+            $product->image4 = $request->get('image5');
             $product->save();
 
-
-            $counter = 0;
-            for ($i=0; $i<5; $i++) {
-                if($request->hasFile('image'.$i)) {
-                    $path = $request->file('image'.$i)->store(
-                        'public/product_img/' . $request->get('store_id')
-                    );
-                    $imSave = new Image;
-                    $imSave->product_id = $product->id;
-                    $imSave->link = "https://serbalokal.com/api/product/img?path=".$path;
-                    $imSave->save();
-                    $counter++;
-                }
-
-            }
+//
+//            $counter = 0;
+//            for ($i=0; $i<5; $i++) {
+//                if($request->hasFile('image'.$i)) {
+//                    $path = $request->file('image'.$i)->store(
+//                        'public/product_img/' . $request->get('store_id')
+//                    );
+//                    $imSave = new Image;
+//                    $imSave->product_id = $product->id;
+//                    $imSave->link = "https://serbalokal.com/api/product/img?path=".$path;
+//                    $imSave->save();
+//                    $counter++;
+//                }
+//
+//            }
 
             $code = "SUCCESS";
             return response()->json(compact('code'));
@@ -200,7 +205,6 @@ class APIProductController extends Controller
                 $description = "Product not found";
                 return response()->json(compact('code','description'));
             } else {
-//                Image::where('product_id',$request->product_id)->delete();
                 Product::where('id',$request->product_id)->delete();
             }
 
