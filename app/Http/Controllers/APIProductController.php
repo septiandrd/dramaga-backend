@@ -107,8 +107,6 @@ class APIProductController extends Controller
                 $store = "Store not found";
                 return response()->json(compact('store'), 401);
             }
-            return response()->json($validator->errors(), 401);
-
 
             $product = new Product;
             $product->name = $request->get('name');
