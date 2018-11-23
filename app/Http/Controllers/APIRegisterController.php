@@ -20,6 +20,7 @@ class APIRegisterController extends Controller
             'password'=> 'required|min:8',
             'phone' => 'required',
             'gender' => 'required',
+            'address' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(),401);
