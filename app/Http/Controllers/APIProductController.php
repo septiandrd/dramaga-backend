@@ -18,7 +18,7 @@ class APIProductController extends Controller
     public function getAllProducts(Request $request)
     {
         try {
-            $products = Product::with('store', 'images')->get();
+            $products = Product::with('store')->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
             return response()->json(compact('store', 'products', 'product_count', 'code'));
@@ -36,7 +36,7 @@ class APIProductController extends Controller
                 ->with('user')
                 ->first();
             $products = Product::where('store_id', $request->store_id)
-                ->with('images')->get();
+                ->get();
             $product_count = sizeof($products);
             $code = "SUCCESS";
             return response()->json(compact('store', 'products', 'product_count', 'code'));
@@ -85,7 +85,7 @@ class APIProductController extends Controller
         try {
             $products = Product::where('store_id', 12)
                 ->select('id', 'name', 'original_price', 'discounted_price', 'stock', 'store_id')
-                ->with('images', 'store')
+                ->with('store')
                 ->get();
 //            $products = Product::inRandomOrder()
 //                ->select('id','name','original_price','discounted_price','stock','store_id')
