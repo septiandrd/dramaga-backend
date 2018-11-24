@@ -40,7 +40,7 @@ Route::group(['middleware' => ['checkHeader']], function () {
     Route::get('transaction/getTransactionsByUser','APITransactionController@getTransactionsByUser');
     Route::get('transaction/getTransactionsByStore','APITransactionController@getTransactionsByStore');
     Route::get('transaction/getTransactionSumByStore','APITransactionController@getTransactionSumByStore');
-    Route::get('transaction/getTransactionsById','APITransactionController@getTransactionsById');
+    Route::get('transaction/getTransactionById','APITransactionController@getTransactionById');
     Route::post('transaction/order','APITransactionController@order');
     Route::post('transaction/pay','APITransactionController@pay');
     Route::post('transaction/cancel','APITransactionController@cancel');

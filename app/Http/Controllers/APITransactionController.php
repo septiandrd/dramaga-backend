@@ -56,8 +56,28 @@ class APITransactionController extends Controller
             $timeline->ordered_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code','timeline'));
+            return response()->json(compact('code','transaction','timeline'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
@@ -85,8 +105,28 @@ class APITransactionController extends Controller
             $timeline->cancelled_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
@@ -113,8 +153,28 @@ class APITransactionController extends Controller
             $timeline->paid_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code','transaction'));
+            return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
@@ -141,8 +201,28 @@ class APITransactionController extends Controller
             $timeline->sent_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
@@ -169,8 +249,28 @@ class APITransactionController extends Controller
             $timeline->arrived_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
@@ -197,8 +297,28 @@ class APITransactionController extends Controller
             $timeline->confirmed_at = $current_time;
             $timeline->save();
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
             $code = "SUCCESS";
-            return response()->json(compact('code'));
+            return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
@@ -212,9 +332,28 @@ class APITransactionController extends Controller
                 ->with('user')
                 ->get();
 
-            $product = Product::withTrashed()
-                ->where('id',$request->product_id)
-                ->get();
+            foreach ($transactions as $transaction) {
+                $product = Product::withTrashed()
+                    ->where('id',$request->product_id)
+                    ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                        'store_id', 'created_at', 'updated_at', 'deleted_at')
+                    ->with('store', 'store.user')
+                    ->first();
+
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+                $transaction->product = $product;
+            }
 
             $code = "SUCCESS";
             return response()->json(compact('product','transactions','code'));
@@ -233,8 +372,29 @@ class APITransactionController extends Controller
                 ->first();
 
             $transactions = Transaction::where('user_id',$request->user_id)
-                ->with('product','product.store')
                 ->get();
+
+            foreach ($transactions as $transaction) {
+                $product = Product::where('id',$transaction->product_id)
+                    ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                        'store_id', 'created_at', 'updated_at', 'deleted_at')
+                    ->with('store', 'store.user')
+                    ->first();
+
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+                $transaction->product = $product;
+            }
 
             $code = "SUCCESS";
             return response()->json(compact('products','user','transactions','code'));
@@ -255,11 +415,31 @@ class APITransactionController extends Controller
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
                 ->orderBy('id','desc')
-                ->with('product')
                 ->get();
 
-            $transaction_count = sizeof($transactions);
+            foreach ($transactions as $transaction) {
+                $product = Product::where('id',$transaction->product_id)
+                    ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                        'store_id', 'created_at', 'updated_at', 'deleted_at')
+                    ->with('store', 'store.user')
+                    ->first();
 
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+                $transaction->product = $product;
+            }
+
+            $transaction_count = sizeof($transactions);
             $code = "SUCCESS";
             return response()->json(compact('transactions','transaction_count','code'));
 
@@ -280,7 +460,6 @@ class APITransactionController extends Controller
             $transactions = Transaction::whereIn('product_id',$product_ids)
                 ->select('total')
                 ->get();
-//                ->toArray();
 
             $total = 0;
             foreach ($transactions as $amount) {
@@ -290,7 +469,7 @@ class APITransactionController extends Controller
             $transaction_count = sizeof($transactions);
 
             $code = "SUCCESS";
-            return response()->json(compact('transactions','transaction_count','total','code'));
+            return response()->json(compact('transaction_count','total','code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
@@ -299,22 +478,43 @@ class APITransactionController extends Controller
         }
     }
 
-    public function getTransactionsById(Request $request) {
+    public function getTransactionById(Request $request) {
         try {
-            $transactions = Transaction::where('id',$request->transaction_id)
-                ->with('product','product.store','user')
+            $transaction = Transaction::where('id',$request->transaction_id)
+                ->with('user')
                 ->first();
 
-            if ($transactions==null) {
+            if ($transaction==null) {
                 $code = "FAILED";
                 $description = "Transaction not found";
                 return response()->json(compact('code','description'));
             }
 
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+
+            $transaction->product = $product;
+
             $timeline = Timeline::where('transaction_id',$request->transaction_id)->first();
 
             $code = "SUCCESS";
-            return response()->json(compact('transactions','timeline','code'));
+            return response()->json(compact('transaction','timeline','code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
@@ -331,8 +531,29 @@ class APITransactionController extends Controller
                 ->toArray();
 
             $transactions = Transaction::whereIn('product_id',$product_ids)
-                ->with('product')
                 ->get();
+
+            foreach ($transactions as $transaction) {
+                $product = Product::where('id',$transaction->product_id)
+                    ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                        'store_id', 'created_at', 'updated_at', 'deleted_at')
+                    ->with('store', 'store.user')
+                    ->first();
+
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+                $transaction->product = $product;
+            }
 
             $transaction_count = sizeof($transactions);
 
