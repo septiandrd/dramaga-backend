@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
+use PhpParser\Node\Expr\Cast\Object_;
 use function Sodium\add;
 use Validator;
 use App\Image;
@@ -18,7 +19,26 @@ class APIProductController extends Controller
     public function getAllProducts(Request $request)
     {
         try {
-            $products = Product::with('store')->get();
+            $products = Product::with('store')
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->get();
+
+            foreach ($products as $product) {
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+            }
+
             $product_count = sizeof($products);
             $code = "SUCCESS";
             return response()->json(compact( 'products', 'product_count', 'code'));
@@ -36,7 +56,25 @@ class APIProductController extends Controller
                 ->with('user')
                 ->first();
             $products = Product::where('store_id', $request->store_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
                 ->get();
+
+            foreach ($products as $product) {
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+            }
+
             $product_count = sizeof($products);
             $code = "SUCCESS";
             return response()->json(compact('store', 'products', 'product_count', 'code'));
@@ -50,11 +88,17 @@ class APIProductController extends Controller
     public function getProductDetails(Request $request)
     {
         try {
-            $products = Product::where('id', $request->id)
+            $product = Product::where('id', $request->id)
                 ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
                     'store_id', 'created_at', 'updated_at', 'deleted_at')
                 ->with('store', 'store.user')
                 ->first();
+
+            if ($product==null) {
+                $code = "FAILED";
+                $description = "Product not found";
+                return response()->json(compact('code', 'description'));
+            }
 
             $images = Product::where('id', $request->id)
                 ->select('image1','image2','image3','image4','image5')
@@ -62,16 +106,15 @@ class APIProductController extends Controller
                 ->toArray();
 
             $imArray = [];
-            foreach ($images as $image) {
-                if ($image!=null) {
-                    array_push($imArray,$image);
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
                 }
             }
-
-            $products->images = $imArray;
+            $product->images = $imArray;
 
             $code = "SUCCESS";
-            return response()->json(compact('products', 'code'));
+            return response()->json(compact('product', 'code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
@@ -84,16 +127,33 @@ class APIProductController extends Controller
     {
         try {
             $products = Product::where('store_id', 12)
-                ->select('id', 'name', 'original_price', 'discounted_price', 'stock', 'store_id')
-                ->with('store')
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
                 ->get();
+            foreach ($products as $product) {
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+            }
+
+            $product_count = sizeof($products);
 //            $products = Product::inRandomOrder()
 //                ->select('id','name','original_price','discounted_price','stock','store_id')
 //                ->with('images','store')
 //                ->take(5)
 //                ->get();
             $code = "SUCCESS";
-            return response()->json(compact('products', 'code'));
+            return response()->json(compact('products','product_count', 'code'));
 
         } catch (Exception $exception) {
             $code = "FAILED";
@@ -232,12 +292,34 @@ class APIProductController extends Controller
     public function getProductsByTransactionCount(Request $request)
     {
         try {
-            $products = Product::withCount('transactions')
+            $products = Product::
+//                ->get();
+                select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->withCount('transactions')
                 ->orderBy('transactions_count', 'desc')
                 ->get();
 
+            foreach ($products as $product) {
+                $images = Product::where('id', $product->id)
+                    ->select('image1','image2','image3','image4','image5')
+                    ->first()
+                    ->toArray();
+
+                $imArray = [];
+                foreach ($images as $link) {
+                    if ($link!=null) {
+                        array_push($imArray, compact('link'));
+                    }
+                }
+                $product->images = $imArray;
+            }
+
+            $product_count = sizeof($products);
+
             $code = "SUCCESS";
-            return response()->json(compact('products', 'code'));
+            return response()->json(compact('products','product_count', 'code'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
