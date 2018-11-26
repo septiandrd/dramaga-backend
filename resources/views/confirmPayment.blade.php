@@ -32,7 +32,8 @@
         }
 
         .form-container {
-            margin: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
             border-style: solid;
             border-width: 1px;
         }
@@ -82,30 +83,31 @@
             SerbaLokal
         </div>
     </nav>
-    <div class="form-container">
-        <div class="title">
-            Konfirmasi Pembayaran
-        </div>
-        <p class="form-desc">
-            Terima kasih telah berbelanja di SerbaLokal!
-            Bila anda telah melakukan pembayaran secara bank transfer,
-            konfirmasikan pembayaran anda disini agar dapat kami proses segera.
-        </p>
-        <form action="/api/transaction/confirm" method="GET">
-            <div class="form-group">
-                <label for="transaction_id">Nomor Transaksi</label>
-                <input name="transaction_id" id="transaction_id" type="text" class="form-control" placeholder="Masukkan Nomor Transaksi">
+    <div class="col-md-8 container">
+        <div class="form-container">
+            <div class="title">
+                Konfirmasi Pembayaran
             </div>
-            <div class="form-group">
-                <label for="bank-tujuan">Bank Tujuan</label>
-                <select class="form-control" id="bank-tujuan">
-                    <option>BCA</option>
-                    <option>Mandiri</option>
-                    <option>BRI</option>
-                    <option>BNI</option>
-                </select>
-            </div>
-            <div class="form-group">
+            <p class="form-desc">
+                Terima kasih telah berbelanja di SerbaLokal!
+                Bila anda telah melakukan pembayaran secara bank transfer,
+                konfirmasikan pembayaran anda disini agar dapat kami proses segera.
+            </p>
+            <form action="/api/transaction/confirm" method="GET">
+                <div class="form-group">
+                    <label for="transaction_id">Nomor Transaksi</label>
+                    <input name="transaction_id" id="transaction_id" type="text" class="form-control" placeholder="Masukkan Nomor Transaksi">
+                </div>
+                <div class="form-group">
+                    <label for="bank-tujuan">Bank Tujuan</label>
+                    <select class="form-control" id="bank-tujuan">
+                        <option>BCA</option>
+                        <option>Mandiri</option>
+                        <option>BRI</option>
+                        <option>BNI</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="bank-tujuan">Bank Anda</label>
                     <select class="form-control" id="bank-tujuan">
                         <option>BCA</option>
@@ -114,28 +116,30 @@
                         <option>BNI</option>
                     </select>
                 </div>
-            <div class="form-group">
-                <label for="rek-nama">Rekening Atas Nama</label>
-                <input type="text" class="form-control" id="rek-nama" placeholder="Masukkan Nama Anda">
-            </div>
-            <div class="form-group">
-                <label for="trf-nominal">Nominal Transfer</label>
-                <input type="text" class="form-control" id="trf-nominal" placeholder="Masukkan Nominal">
-            </div>
-            <div class="form-group">
-                <label for="trf-date">Tanggal Transfer</label>
-                <input type="date" class="form-control" id="trf-date">
-            </div>
-            <div class="form-group">
-                <label for="trf-date">Bukti Transfer</label>
-                <p class="upload-desc">Max. ukuran file 5 mb. Gunakan format file .jpg, .png atau .bmp</p>
-                <input type="file" class="form-control-file border">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Konfirmasi</button>   
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="rek-nama">Rekening Atas Nama</label>
+                    <input type="text" class="form-control" id="rek-nama" placeholder="Masukkan Nama Anda">
+                </div>
+                <div class="form-group">
+                    <label for="trf-nominal">Nominal Transfer</label>
+                    <input type="text" class="form-control" id="trf-nominal" placeholder="Masukkan Nominal">
+                </div>
+                <div class="form-group">
+                    <label for="trf-date">Tanggal Transfer</label>
+                    <input type="date" class="form-control" id="trf-date">
+                </div>
+                <div class="form-group">
+                    <label for="trf-date">Bukti Transfer</label>
+                    <p class="upload-desc">Max. ukuran file 5 mb. Gunakan format file .jpg, .png atau .bmp</p>
+                    <input type="file" class="form-control-file border">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Konfirmasi</button>
+                </div>
+            </form>
+        </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
