@@ -46,7 +46,6 @@ Route::group(['middleware' => ['checkHeader']], function () {
     Route::post('transaction/cancel','APITransactionController@cancel');
     Route::post('transaction/send','APITransactionController@send');
     Route::post('transaction/arrive','APITransactionController@arrive');
-    Route::post('transaction/confirm','APITransactionController@confirm');
 
     Route::get('store/getAllStores', 'APIStoreController@getAllStores');
     Route::get('store/getStoresByLevel', 'APIStoreController@getStoresByLevel');
@@ -56,3 +55,6 @@ Route::group(['middleware' => ['checkHeader']], function () {
 });
 
 Route::get('product/img', 'APIProductController@getImage');
+
+Route::get('transaction/confirmPayment','APITransactionController@confirmPayment');
+Route::get('transaction/confirm','APITransactionController@confirm');

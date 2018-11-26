@@ -280,6 +280,7 @@ class APITransactionController extends Controller
 
     public function confirm(Request $request) {
         try {
+//            dd($request);
             $transaction = Transaction::where('id',$request->transaction_id)->first();
 
             if ($transaction==null) {
@@ -318,12 +319,17 @@ class APITransactionController extends Controller
             $transaction->product = $product;
 
             $code = "SUCCESS";
+            return view('paymentSuccess');
             return response()->json(compact('code','transaction','timeline'));
         } catch (Exception $exception) {
             $code = "FAILED";
             $description = $exception;
             return response()->json(compact('code','description'));
         }
+    }
+
+    public function confirmPayment(Request $request) {
+        return view('confirmPayment');
     }
 
     public function getTransactionsByProduct(Request $request) {
