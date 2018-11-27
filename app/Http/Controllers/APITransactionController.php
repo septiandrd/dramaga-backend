@@ -328,6 +328,56 @@ class APITransactionController extends Controller
         }
     }
 
+    public function confirmGet(Request $request) {
+        try {
+//            dd($request);
+            $transaction = Transaction::where('id',$request->transaction_id)->first();
+
+            if ($transaction==null) {
+                $code = "FAILED";
+                $description = "Transaction not found";
+                return response()->json(compact('code','description'));
+            }
+
+            $current_time = Carbon::now()->toDateTimeString();
+
+            $transaction->status = "Finished";
+            $transaction->save();
+
+            $timeline = Timeline::where('transaction_id',$request->transaction_id)->first();
+            $timeline->confirmed_at = $current_time;
+            $timeline->save();
+
+            $product = Product::where('id',$transaction->product_id)
+                ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
+                    'store_id', 'created_at', 'updated_at', 'deleted_at')
+                ->with('store', 'store.user')
+                ->first();
+
+            $images = Product::where('id', $product->id)
+                ->select('image1','image2','image3','image4','image5')
+                ->first()
+                ->toArray();
+
+            $imArray = [];
+            foreach ($images as $link) {
+                if ($link!=null) {
+                    array_push($imArray, compact('link'));
+                }
+            }
+            $product->images = $imArray;
+            $transaction->product = $product;
+
+            $code = "SUCCESS";
+            return view('paymentSuccess');
+            return response()->json(compact('code','transaction','timeline'));
+        } catch (Exception $exception) {
+            $code = "FAILED";
+            $description = $exception;
+            return response()->json(compact('code','description'));
+        }
+    }
+
     public function confirmPayment(Request $request) {
         return view('confirmPayment');
     }

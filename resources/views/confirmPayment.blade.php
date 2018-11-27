@@ -93,7 +93,7 @@
                 Bila anda telah melakukan pembayaran secara bank transfer,
                 konfirmasikan pembayaran anda disini agar dapat kami proses segera.
             </p>
-            <form action="/api/transaction/confirm" method="GET">
+            <form action="/api/transaction/confirmGet" method="GET">
                 <div class="form-group">
                     <label for="transaction_id">Nomor Transaksi</label>
                     <input name="transaction_id" id="transaction_id" type="text" class="form-control" placeholder="Masukkan Nomor Transaksi">
