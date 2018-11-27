@@ -57,7 +57,5 @@ Route::group(['middleware' => ['checkHeader']], function () {
 
 Route::get('product/img', 'APIProductController@getImage');
 
-
-# change this
 Route::get('transaction/confirmPayment','APITransactionController@confirmPayment');
 Route::get('transaction/confirmPaymentGet','APITransactionController@confirmGet');
