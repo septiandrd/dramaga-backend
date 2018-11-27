@@ -126,6 +126,7 @@ class APIProductController extends Controller
     public function getSuggestedProducts(Request $request)
     {
         try {
+            # change this
             $products = Product::where('store_id', 4)
                 ->select('id', 'name', 'description', 'original_price', 'discounted_price', 'stock', 'category',
                     'store_id', 'created_at', 'updated_at', 'deleted_at')
